@@ -1,0 +1,19 @@
+<Configuration status="warn" name="MyApp" packages="">
+  <Appenders>
+    <RollingFile name="RollingFile" fileName="logs/CareersiteError.log"
+                 filePattern="logs/CareersiteError.log.%i">
+      <PatternLayout>
+        <Pattern>%d %p %c:%L %m%n</Pattern>
+      </PatternLayout>
+      <Policies>
+        <SizeBasedTriggeringPolicy size="1 MB"/>
+      </Policies>
+        <DefaultRolloverStrategy max="60"/>
+    </RollingFile>
+  </Appenders>
+  <Loggers>
+    <Root level="INFO">
+      <AppenderRef ref="RollingFile"/>
+    </Root>
+  </Loggers>
+</Configuration>

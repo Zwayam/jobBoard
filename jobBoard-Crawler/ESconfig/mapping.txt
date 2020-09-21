@@ -1,0 +1,111 @@
+curl -XPUT 'localhost:9200/careersite' -H 'Content-Type: application/json' -d'
+{
+  "settings": {
+    "index": {
+      "gc_deletes": "0",
+      "analysis": {
+        "analyzer": {
+          "my_analyzer": {
+            "tokenizer": "my_tokenizer"
+          },
+          "whitespace": {
+            "type": "custom",
+            "filter": [
+              "lowercase"
+            ],
+            "tokenizer": "whitespace"
+          },
+          "comma": {
+            "type": "custom",
+            "tokenizer": "comma"
+          },
+          "separator": {
+            "type": "custom",
+            "tokenizer": "separator",
+            "filter": [
+              "lowercase"
+            ]
+          },
+          "keywordlowercase": {
+            "tokenizer": "keyword",
+            "filter": "lowercase"
+          }
+        },
+        "normalizer": {
+          "myLowercase": {
+            "type": "custom",
+            "filter": [
+              "lowercase"
+            ]
+          }
+        },
+        "tokenizer": {
+          "comma": {
+            "type": "pattern",
+            "pattern": "((,\\s+)|(\\s+,\\s+)|(\\s+,)|(,))"
+          },
+          "separator": {
+            "type": "pattern",
+            "pattern": "((,+)|(\\s+)|(\\.+))"
+          },
+          "my_tokenizer": {
+            "type": "ngram",
+            "min_gram": 3,
+            "max_gram": 3,
+            "token_chars": [
+              "letter",
+              "digit"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "mappings": {
+    "job": {
+      "dynamic": false,
+      "properties": {
+        "jobTitle": {
+          "type": "keyword",
+          "normalizer": "myLowercase"
+        },
+        "companyId": {
+          "type": "integer"
+        },
+        "companyName": {
+          "type": "keyword",
+          "normalizer": "myLowercase"
+        },
+        "createdDate": {
+          "type": "date"
+        },
+        "referenceNumber": {
+          "type": "keyword",
+          "normalizer": "myLowercase"
+        },
+        "jobUrl": {
+          "type": "text"
+        },
+         "longDescription": {
+          "type": "text"
+        },
+        "skillSet": {
+          "type": "keyword",
+          "normalizer": "myLowercase"
+        },
+        "country": {
+          "type": "keyword",
+          "normalizer": "myLowercase"
+        },
+        "jdskillsKnownList": {
+          "type": "keyword",
+          "normalizer": "myLowercase"
+        },
+        "jdSkillsKnown": {
+          "type": "keyword",
+          "normalizer": "myLowercase"
+        }
+      }
+    }
+  }
+}'
